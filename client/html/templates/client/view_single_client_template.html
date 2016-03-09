@@ -1,0 +1,287 @@
+
+<template name="viewClient">
+	{{#if currentUser}}
+    {{#if isInRole 'admin'}}
+    <form class="add_order"> <!-- Start the form for the meteor backend to collect to store in the database -->
+    
+    <div class="tabbable-custom nav-justified">
+								<ul class="nav nav-tabs nav-justified">
+									<li class="active">
+										<a data-target="#tab_1_1_1" data-toggle="tab" aria-controls="tab_1_1_1" role="tab">
+										Basic Info </a>
+									</li>
+									<li class="">
+										<a data-target="#tab_1_1_2" data-toggle="tab" aria-controls="tab_1_1_2" role="tab">
+										Emails </a>
+									</li>
+									<li>
+										<a data-target="#tab_1_1_3" data-toggle="tab" aria-controls="tab_1_1_3" role="tab">
+										Notes </a>
+									</li>
+									<li>
+										<a data-target="#tab_1_1_4" data-toggle="tab" aria-controls="tab_1_1_4" role="tab">
+										Maps </a>
+									</li>
+									{{#if ticket}}
+										<li>
+										<a data-target="#tab_1_1_5" data-toggle="tab" aria-controls="tab_1_1_5" role="tab">
+										Tickets </a>
+									</li>
+									{{/if}}
+								</ul>
+								<div class="tab-content">
+									<div role="tabpanel" class="tab-pane active" id="tab_1_1_1">
+										        <div class="form-group form-md-line-input">
+                                                	<input type="text" name="company_name" value="{{company}}" class="form-control" id="company_name" placeholder="Enter the company" >
+                                                	<label for="company_name">Company</label>
+                                                </div>
+                                                <div class="form-group form-md-line-input">
+                                                	<input type="text" name="shipping_address" value="{{shipping_address}}" class="form-control" id="form_control_1" placeholder="Enter the shipping address" >
+                                                	<label for="form_control_1">Shipping Address</label>
+                                                </div>
+                                                <div class="form-group form-md-line-input">
+                                                	<input type="text" name="shipping_city" value="{{shipping_city}}" class="form-control" id="form_control_1" placeholder="Enter the shipping city" >
+                                                	<label for="form_control_1">Shipping City</label>
+                                                </div>
+                                                <div class="form-group form-md-line-input">
+												<select class="form-control" id="form_control_1" name="shipping_state">
+													{{#each shipping_state}}
+														<option value="{{state}}" selected="{{isEqual state ../shipping_state }}">{{state}}</option>
+													{{/each}}
+												</select>
+												<label for="form_control_1">Shipping State</label>
+												</div>
+                                                <div class="form-group form-md-line-input">
+                                                	<input type="text" name="shipping_zip" value="{{shipping_zip}}" class="form-control" id="form_control_1" placeholder="Enter the shipping zip" >
+                                                	<label for="form_control_1">Shipping Zip</label>
+                                                </div>
+                                                <div class="form-group form-md-line-input">
+                                                	<input type="text" name="contact_name" value="{{contact_name}}" class="form-control" id="form_control_1" placeholder="Enter the contact name" >
+                                                	<label for="form_control_1">Contact Name</label>
+                                                </div>
+                                                <div class="form-group form-md-line-input">
+                                                	<input type="text" name="contact_phone" value="{{contact_phone}}" class="form-control mask_phone" id="form_control_1" placeholder="Enter the contact phone" >
+                                                	<label for="form_control_1">Contact Phone</label>
+                                                </div>
+                                                <div class="form-group form-md-line-input">
+                                                	<input type="text" name="email" value="{{contact_email}}" class="form-control" id="form_control_1" placeholder="Enter the contact email" >
+                                                	<label for="form_control_1">Contact Email</label>
+                                                </div>
+									</div>
+									<div role="tabpanel" class="tab-pane" id="tab_1_1_2">
+										<div class="portlet light">
+						<div class="portlet-title">
+							<div class="caption font-blue-steel">
+								<i class="icon-speech font-blue-steel"></i>
+								<span class="caption-subject bold uppercase"> Emails</span>
+							</div>
+							<div class="actions">
+								<a data-toggle="modal" href="#email_modal" class="btn btn-circle blue btn-sm">
+									<i class="fa fa-plus"></i> Add 
+								</a>
+								<div class="btn-group">
+									<a class="btn btn-circle btn-default btn-sm" href="javascript:;" data-toggle="dropdown" aria-expanded="false">
+										<i class="fa fa-ellipsis-v"></i> More <i class="fa fa-angle-down"></i>
+									</a>
+									<ul class="dropdown-menu pull-right">
+										<li>
+											<a id="clear" href="">
+											<i class="fa fa-trash-o"></i> Remove All </a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="portlet-body">
+							<div class="scroller" data-rail-visible="1" data-rail-color="blue" data-handle-color="#a1b2bd" data-initialized="1">
+								<ul class="list_ul">
+									    {{#each db.email_account}}
+									    <li>
+										<div class="form-group form-md-line-input">
+											<div class="col-md-12">
+												<div class="input-group">
+													<span class="input-group-btn btn-left">
+													<a id="remove_email" class="btn btn-xs red"><i class="fa fa-minus"></i></a>
+													</span>
+													<div class="input-group-control">
+														<input type="text" class="form-control email_accounts" name="email_account" value="{{ . }}" placeholder="Enter an email">
+														<div class="form-control-focus">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+                                        </li>
+                                        {{/each}}
+                                </ul>
+								
+							</div>
+						</div>
+					</div>
+									</div>
+									<div role="tabpanel" class="tab-pane" id="tab_1_1_3">
+										<div class="form-group form-md-line-input">
+										<textarea name="notes" value="{{notes}}" class="form-control" rows="3" placeholder="Enter notes here"></textarea>
+										<label for="form_control_1">Notes</label>
+									</div>
+									</div>
+									<div class="tab-pane" id="tab_1_1_4">
+									    <div class="row">
+                                            <iframe width="100%" height="450" frameborder="0" style="border:0"
+                                            src="https://www.google.com/maps/embed/v1/place?q={{shipping_address}},+{{shipping_city}},+{{clients.shipping_state}},+{{shipping_zip}},+United+States&key=AIzaSyAAbrp0LXDzocKVUfluBipMifXlsVv_DSw" allowfullscreen></iframe>
+                                                        
+                                        </div>
+									</div>
+									{{#if ticket}}
+									<div role="tabpanel" class="tab-pane" id="tab_1_1_5">
+										<table class="table table-bordered table-striped table-condensed flip-content">
+											<thead class="flip-content">
+											<tr>
+												<th>
+													 Client Name
+												</th>
+												<th>
+													 Phone
+												</th>
+												<th>
+													 Status
+												</th>
+												<th>
+													 Employee
+												</th>
+												<th>
+													 Notes
+												</th>
+											</tr>
+											</thead>
+											<tbody>
+											{{#each ticket}}
+											<tr>
+												<td>
+													 <a href="{{pathFor 'viewTicketPage'}}">{{this.client_name}}</a>
+												</td>
+												<td>
+													 {{this.contact_phone}}
+												</td>
+												<td>
+													 <span class="item-status">
+																	
+																	{{#if equals this.status "Open"}}
+															      		<a href="{{pathFor 'viewTicketPage'}}"><span class="label label-sm label-success">Open</span></a>
+															      	{{/if}}
+															      	
+															      	{{#if equals this.status "Pending"}}
+															      		<a href="{{pathFor 'viewTicketPage'}}"><span class="label label-sm label-warning">Pending</span></a>
+															      	{{/if}}
+															      	
+															      	{{#if equals this.status "Closed"}}
+															      		<a href="{{pathFor 'viewTicketPage'}}"><span class="label label-sm label-danger">Closed</span></a>
+															      	{{/if}}
+																	
+													</span>
+												</td>
+												<td>
+													 {{this.employee}}
+												</td>
+												<td id="notes">
+													{{this.notes}}
+												</td>
+											</tr>
+											{{/each}}
+											</tbody>
+										</table>
+									</div>
+									{{/if}}
+								</div>
+							</div>
+    
+    
+    
+    
+    
+    
+    
+    
+            <div class="bottom_wrapper">
+        <h5>Last edited: {{date}} at: {{time}}</h5>
+        <button type="submit" class="btn btn-default blue">Update client</button>
+        <button class="btn btn-default red" id="remove_from_db">Remove client from db</button>
+        <a class="btn btn-default blue" href="{{ pathFor 'editClientPortalPage' _id=this._id}}">Edit client portal</a>
+        </div>
+
+    
+    
+    
+
+
+    </form>
+
+{{> quickSidebar}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="email_modal" class="modal fade bs-modal-lg in modal-scrollable" tabindex="-1" role="dialog" aria-hidden="true">
+	 <form action="#" id="email_modal_form">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      <div class="modal-header">
+      	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+			<h4 class="modal-title">Add an email</h4>
+			</div>
+			
+      <div class="modal-body">
+
+          <div class="modal_section">
+          
+                <div class="form-group form-md-line-input">
+                	<input type="text" name="email_input" value="" class="form-control" id="email" placeholder="Enter the email" >
+                	<label for="item">Email</label>
+                </div>
+                
+            </div>
+					
+                
+      
+        </div>
+            <div class="modal-footer">
+      <button type="submit" id="add_email" class="waves-effect waves-light btn green">Add Email</button>
+    </div>
+        </div>
+    </div>
+    </form>
+  </div>
+  
+  
+  
+{{else}}
+      {{> clientPortalPage}}
+{{/if}}
+{{else}}
+	{{> loginPage}}
+{{/if}}
+</template>

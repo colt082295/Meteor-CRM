@@ -1,0 +1,44 @@
+<template name="viewScUser">
+    <form class="add_order"> <!-- Start the form for the meteor backend to collect to store in the database -->
+        
+        <div id="tabs">
+            <ul>
+                <li><a href="#tabs-1">{{company}}</a></li>
+            </ul>
+            <div id="tabs-1">
+                <div class="row"><div class="input-field"><input type="text" name="company_name" placeholder="Enter company name" value="{{company}}" /></div></div>
+                <div class="row"><div class="input-field"><input type="text" name="contact_name" placeholder="Enter contact name" value="{{contact_name}}" /></div></div>
+                <div class="row"><div class="input-field"><input type="text" name="contact_phone" placeholder="Enter contact phone number" value="{{contact_phone}}" /></div></div>
+                <h4 class="current_state">Current Session State:</h4><!-- if statement for displaying correct info with correct styling --> 
+                                            {{#if equals session_state "Idle"}} 
+                                                <div class="idle_user current_state">{{session_state}}</div>
+                                            {{else}}
+                                                {{#if equals session_state "Active"}}
+                                                <div class="active_user current_state">{{session_state}}</div>
+                                                <span id="stopwatch">00:00:00</span>
+                                                {{/if}}
+                                            {{/if}}
+                                            <div class="last_session"><h4>Last remote session: {{date}} at: {{time}}</h4></div>
+                <div class="table_wrapper">
+                <div class="row"><div class="input-field"><input class="inline_email" type="text" name="contact_email" placeholder="Enter contact email" value="{{contact_email}}" /><a class="button form_button button-primary" href="mailto:{{contact_email}}">Send Email</a></div></div>
+                </div>
+            </div>
+        </div>
+    <div class="bottom_wrapper">
+        <button id="start-session" class="waves-effect waves-light btn blue">Start remote session</button>
+        <button id="end-session" class="waves-effect waves-light btn red">End remote session</button>
+        </div>
+    </form>
+    <script>
+    /* Setting off location autocomplete for now.
+        $("input").geocomplete({
+  details: ".add_order",
+  detailsAttribute: "data-geo"
+});
+*/
+
+$(document).ready(function() {
+    $('select').material_select();
+});
+    </script>
+</template>

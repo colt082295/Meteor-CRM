@@ -1,0 +1,145 @@
+<template name="viewQuote">
+		{{#if currentUser}}
+    {{#if isInRole 'admin'}}
+        <form class="add_order"> <!-- Start the form for the meteor backend to collect to store in the database -->
+    
+    <div class="tabbable-custom nav-justified">
+								<ul class="nav nav-tabs nav-justified">
+									<li class="active">
+										<a data-target="#tab_1_1_1" data-toggle="tab" aria-expanded="true">
+										Quote </a>
+									</li>
+									<li class="">
+										<a data-target="#tab_1_1_2" data-toggle="tab" aria-expanded="false">
+										Notes </a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab_1_1_1">
+										        <div class="form-group form-md-line-input">
+                                                	<input type="text" name="company" value="{{company}}" class="form-control" id="company" placeholder="Enter the order" >
+                                                	<label for="company">Company</label>
+                                                </div>
+                                                
+                                                <div class="col-md-12 form_title">
+                                                <h2 class="">Workstations/Laptops</h2>
+                                                </div>
+                                                <div class="col-md-6 quote_container">
+                                                {{#each quote.workstations}}
+                                                <div class="form-group form-md-line-input">
+                                                	<div class="input-group">
+                                                	<span class="input-group-btn btn-left">
+													<a class="btn red listExRemove">X</a>
+													</span>
+                                                	<input type="text" name="workstations" value="{{.}}" class="form-control" id="form_control_1" placeholder="Enter the product" >
+                                                	<label for="form_control_1">Product</label>
+                                                	</div>
+                                                </div>
+                                                {{/each}}
+                                                </div>
+                                                <div class="col-md-3 quantity_container">
+                                                {{#each quote.quantity}}
+	                                            <div class="form-group form-md-line-input">
+                                                	<input type="number" id="mask_number" name="quantity" value="{{.}}" class="form-control" >
+                                                	<label for="mask_number">Quantity</label>
+                                                </div>    
+                                                
+                                                {{/each}}
+                                                </div>
+                                                <div class="col-md-3 price_container">
+                                                	{{#each quote.price}}
+                                                <div class="form-group form-md-line-input">
+											<div class="input-group">
+												<span class="input-group-addon">$</span>
+												<input type="text" name="price" class="form-control" value="{{.}}" placeholder="Enter amount">
+												<div class="form-control-focus">
+												</div>
+												<span class="input-group-addon">.00</span>
+											</div>
+											</div>
+											{{/each}}
+											</div>
+											<a href="" id="add_product" class="btn blue right">Add another</a>
+												
+											
+											
+											<div class="col-md-12 form_title">
+											<h2 class="">Customer Site Infrastructure Requirements</h2>
+											</div>
+												<div class="col-md-6">
+												{{#each quote.requirements}}
+                                                <div class="form-group form-md-line-input">
+                                                	<input type="text" name="requirements" class="form-control" value="{{.}}" id="form_control_1" placeholder="Enter the product" >
+                                                	<label for="form_control_1">Product</label>
+                                                </div>
+												{{/each}}
+												</div>
+												<div class="col-md-6">
+												{{#each quote.price_2}}
+                                                <div class="form-group form-md-line-input">
+											<div class="input-group">
+												<span class="input-group-addon">$</span>
+												<input type="text" name="price_2" class="form-control" value="{{.}}" placeholder="Enter amount">
+												<div class="form-control-focus">
+												</div>
+												<span class="input-group-addon">.00</span>
+											</div>
+											</div>
+											{{/each}}
+											</div>
+											
+											<div class="col-md-12 form_title">
+											<h2 class="">Services</h2>
+											</div>
+											
+											
+										<div class="form-group form-md-line-input form-md-floating-label has-info col-md-12">
+										<select class="form-control edited" id="service" value="{{service}}" name="service">
+											{{#each services}}
+												<option value="{{this.service}}" selected="{{isEqual service ../service }}">{{this.service}}</option>
+											{{/each}}
+										</select>
+										<label for="service">Service</label>
+										</div>
+                                                
+                                                
+									</div>
+									<div class="tab-pane" id="tab_1_1_2">
+									    <div class="form-group form-md-line-input has-success">
+										<label class="col-md-2 control-label" for="form_control_1">Notes</label>
+										<div class="">
+											<textarea class="form-control" rows="3" placeholder="Enter notes" name="notes" id="notes" value="notes">{{notes}}</textarea>
+											<div class="form-control-focus">
+											</div>
+										</div>
+									</div>
+									</div>
+								</div>
+							</div>
+    
+    
+    
+    
+    
+    
+    
+            <div class="bottom_wrapper">
+        <h5>Last edited: {{date}} at: {{time}}</h5>
+        <button type="submit" class="submit btn btn-default blue">Update quote</button>
+        <button class="btn btn-default red" id="remove_from_db">Remove quote from db</button>
+        <button class="convert btn btn-default red" id="convert_order" style="margin:0!important">Convert to order</button>
+        </div>
+
+            </form>
+    
+    
+    {{else}}
+      {{> clientPortalPage}}
+{{/if}}
+{{else}}
+	{{> loginPage}}
+{{/if}}
+
+    
+    
+</template>

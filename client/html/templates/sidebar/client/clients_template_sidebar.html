@@ -1,0 +1,41 @@
+<template name="clientsListSidebar">
+<li class="start ">
+					<a href="javascript:;">
+					<i class="fa fa-users"></i>
+					<span class="title">Clients</span>
+					<span class="arrow "></span>
+					</a>
+					<ul class="sub-menu">
+						{{> clientSideSearch}}
+							{{#each posts}}
+								<li class="{{ maybeSelectedId }}">
+									<a href="{{pathFor 'viewClientPage'}}">
+									<i class="fa fa-users"></i>
+									{{company}}</a>
+								</li>
+							{{/each}}
+							<a href="{{pathFor 'addClientPage'}}" class="btn btn-default blue">Add New Client</a>
+							<a href="{{pathFor 'clientsPage'}}" class="btn btn-default blue">View All Clients</a>
+					</ul>
+				</li>
+</template>
+
+
+
+<template name="clientSideSearch">
+	<div class="sidebar-search">
+	<div class="input-group">
+		{{> inputAutocomplete settings=settings id="test" class="form-control" name="company" placeholder="Search..." }}
+		<span class="input-group-btn">
+		<a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
+		</span>
+	</div>
+	</div>
+        
+</template>
+
+<template name="standardClientSideSearch">
+     <a class="side_search_item" href="{{pathFor 'viewClientPage'}}">
+	     	{{company}}
+     </a>
+</template>

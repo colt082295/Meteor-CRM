@@ -1,0 +1,45 @@
+<template name="purchaseOrdersSidebar">
+<li>
+					<a href="javascript:;">
+					<i class="fa fa-money"></i>
+					<span class="title">Purchase Orders</span>
+					<span class="arrow "></span>
+					</a>
+					<ul class="sub-menu">
+						{{> purchaseOrdersSideSearch}}
+							{{#each posts}}
+								<li>
+									<a href="{{pathFor 'viewPurchaseOrderPage'}}">
+									<i class="fa fa-money"></i>
+									{{company}}</a>
+								</li>
+							{{/each}}
+							<a href="{{pathFor 'addPurchaseOrderPage'}}" class="btn btn-default blue">Add New Purchase Order</a>
+							<a href="{{pathFor 'viewPurchaseOrdersPage'}}" class="btn btn-default blue">View All Purchase Orders</a>
+					</ul>
+</li>
+</template>
+
+
+<template name="purchaseOrdersSideSearch">
+	<div class="sidebar-search">
+	<div class="input-group">
+		{{> inputAutocomplete settings=settings id="test" class="form-control" name="company" placeholder="Search..." }}
+		<span class="input-group-btn">
+		<a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
+		</span>
+	</div>
+	</div>
+        
+</template>
+
+
+<template name="standardPurchaseOrdersSideSearch">
+     <a class="side_search_item" href="{{pathFor 'viewPurchasePage'}}">
+	     	{{company}}
+     </a>
+</template>
+
+<template name="standardPurchaseOrdersNoMatch">
+	
+</template>

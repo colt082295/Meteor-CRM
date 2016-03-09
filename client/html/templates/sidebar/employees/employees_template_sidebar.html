@@ -1,0 +1,23 @@
+<template name="employeesSidebar">
+<li>
+					<a href="javascript:;">
+					<i class="fa fa-user"></i>
+					<span class="title">Employees</span>
+					<span class="arrow "></span>
+					</a>
+					<ul class="sub-menu">
+							{{#each posts}}
+								<li class="{{ maybeSelectedId }}">
+									<a href="{{pathFor 'viewEmployeePage'}}">
+									<i class="fa fa-user"></i>
+									{{#if isEmpty name}}
+										{{username}}
+									{{else}}
+										{{name}}
+									{{/if}}</a>
+								</li>
+							{{/each}}
+							<a href="{{pathFor 'registerPage'}}" class="btn btn-default blue">Register User</a>
+					</ul>
+				</li>
+</template>

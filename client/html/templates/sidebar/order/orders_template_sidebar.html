@@ -1,0 +1,44 @@
+<template name="ordersListSidebar">
+<li>
+					<a href="javascript:;">
+					<i class="fa fa-shopping-cart"></i>
+					<span class="title">Orders</span>
+					<span class="arrow "></span>
+					</a>
+					<ul class="sub-menu">
+						{{> orderSideSearch}}
+							{{#each posts}}
+								<li>
+									<a href="{{pathFor 'viewOrderPage'}}">
+									<i class="fa fa-shopping-cart"></i>
+									{{order}}</a>
+								</li>
+							{{/each}}
+							<a href="{{pathFor 'addOrderPage'}}" class="btn btn-default blue">Add New Order</a>
+							<a href="{{pathFor 'viewOrdersPage'}}" class="btn btn-default blue">View All Orders</a>
+					</ul>
+</li>
+</template>
+
+
+
+<template name="orderSideSearch">
+        	<div class="sidebar-search">
+	<div class="input-group">
+		{{> inputAutocomplete settings=settings id="test" class="form-control" name="order" placeholder="Search..." }}
+		<span class="input-group-btn">
+		<a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
+		</span>
+	</div>
+	</div>
+</template>
+
+<template name="standardOrderSideSearch">
+     <a class="side_search_item" href="{{pathFor 'viewOrderPage'}}">
+	     	{{order}}
+     </a>
+</template>
+
+<template name="standardOrderNoMatch">
+	
+</template>

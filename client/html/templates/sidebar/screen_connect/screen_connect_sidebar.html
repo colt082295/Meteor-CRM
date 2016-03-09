@@ -1,0 +1,9 @@
+<template name="screenConnectListSidebar">
+   <div class="sidebar_list">
+    {{#each posts}}
+      <li class="sidebar_list_item"><a class="test" href="{{pathFor 'viewScreenConnectPage'}}">{{company}}<span class="fa fa-pencil"></span></a></li>
+    {{/each}}
+   </div>
+    <li><a href="{{ pathFor 'clientsPage'}}" class="waves-effect waves-teal btn-flat">View All</a></li> <!-- Route to the correct template. This changes dynamically. -->
+  <li><a href="{{ pathFor 'addClientPage'}}" class="waves-effect waves-teal btn-flat">Add New Client <span class="sidebar_icon_right fa fa-plus"></span></a></li>
+</template>

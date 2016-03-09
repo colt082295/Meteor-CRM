@@ -1,0 +1,350 @@
+<template name="viewEmployee">
+	{{#if currentUser}}
+    {{#if isInRole 'admin'}}
+ <form class="add_order"> <!-- Start the form for the meteor backend to collect to store in the database -->
+	<div class="row margin-top-20">
+					<div class="col-md-12">
+						<!-- BEGIN PROFILE SIDEBAR -->
+						<div class="col-lg-2 col-md-3 col-sm-4">
+							<!-- PORTLET MAIN -->
+							<div class="portlet light profile-sidebar-portlet">
+								<!-- SIDEBAR USERPIC -->
+								{{#if profile.picture}}
+								<div class="user_pic" style="background-image: url('{{profile.picture}}')">
+								</div>
+								{{else}}
+								{{/if}}
+								<!-- END SIDEBAR USERPIC -->
+								<!-- SIDEBAR USER TITLE -->
+								<div class="profile-usertitle">
+									<div class="profile-usertitle-name">
+										 {{#if isEmpty profile.info.name}}
+											{{username}}
+										 {{else}}
+											{{profile.info.name}}
+										 {{/if}} 
+									</div>
+								</div>
+								<!-- END SIDEBAR USER TITLE -->
+								<!-- SIDEBAR BUTTONS -->
+								<div class="profile-userbuttons">
+									<a href="mailto:{{profile.info.email}}" type="button" class="btn btn-circle btn-danger btn-sm">Email</a>
+									<a id="add_schedule_item" type="button" class="btn btn-circle btn-danger btn-sm">Add task</a>
+								</div>
+								<!-- END SIDEBAR BUTTONS -->
+								<!-- SIDEBAR MENU -->
+								<div class="profile-usermenu">
+									<ul class="nav">
+										<li class="active">
+											<a data-target="#tab_1_1_1" data-toggle="tab" aria-expanded="true">
+											<i class="icon-home"></i>
+											Overview </a>
+										</li>
+									</ul>
+								</div>
+								<!-- END MENU -->
+							</div>
+							<!-- END PORTLET MAIN -->
+							<!-- PORTLET MAIN -->
+							<div class="portlet light">
+								<!-- STAT -->
+								<div class="row list-separated profile-stat">
+									<div class="col-md-6 col-sm-6 col-xs-6">
+										<div class="uppercase profile-stat-title">
+											  {{count_all}}
+										</div>
+										<div class="uppercase profile-stat-text">
+											 Ticket(s)
+										</div>
+									</div>
+									<div class="col-md-6 col-sm-6 col-xs-6">
+										<div class="uppercase profile-stat-title">
+											 {{#if count_schedule}}
+											 {{count_schedule}}
+											 {{else}}
+											 0
+											 {{/if}}
+										</div>
+										<div class="uppercase profile-stat-text">
+											 Task(s)
+										</div>
+									</div>
+								</div>
+								<!-- END STAT -->
+								<div>
+									<h4 class="profile-desc-title">About
+									{{#if isEmpty profile.info.name}}
+										{{username}}
+									{{else}}
+										{{profile.info.name}}
+									{{/if}} 
+									</h4>
+									<span class="profile-desc-text"> {{profile.info.notes}} </span>
+									<div class="margin-top-20 profile-desc-link">
+										<i class="fa fa-envelope"></i>
+										<a href="mailto:{{profile.info.email}}">{{profile.info.email}}</a>
+									</div>
+									<div class="margin-top-20 profile-desc-link">
+										<i class="fa fa-phone"></i>
+										<span>{{profile.info.phone}}</span>
+									</div>
+								</div>
+							</div>
+							<!-- END PORTLET MAIN -->
+						</div>
+						
+						<div class="tab-content col-md-8 col-sm-7 col-lg-10">
+						<!-- END BEGIN PROFILE SIDEBAR -->
+						<div class="tab-pane active" id="tab_1_1_1">
+						<div class="col-md-6">
+									<!-- BEGIN PORTLET -->
+									<div class="portlet light">
+										<div class="portlet-title">
+											<div class="caption caption-md">
+												<i class="icon-bar-chart theme-font hide"></i>
+												<span class="caption-subject font-blue-madison bold uppercase">Tickets</span>
+												<span class="caption-helper">{{count_tickets}} ticket(s)</span>
+											</div>
+										</div>
+										<div class="portlet-body">
+												<div class="general-item-list scroller" style="height: 250px">
+													{{#each ticket}}
+													<div class="item">
+														<div class="item-head">
+															<div class="item-details">
+																<a href="{{pathFor 'viewTicketPage'}}" class="item-name primary-link">{{company}}</a>
+																<span class="item-label">{{time}}</span>
+															</div>
+															
+															<span class="item-status">
+																
+																{{#if equals status "Open"}}
+														      		<a href="{{pathFor 'viewTicketPage'}}"><span class="label label-sm label-success">Open</span></a>
+														      	{{/if}}
+														      	
+														      	{{#if equals status "Pending"}}
+														      		<a href="{{pathFor 'viewTicketPage'}}"><span class="label label-sm label-warning">Pending</span></a>
+														      	{{/if}}
+														      	
+														      	{{#if equals status "Closed"}}
+														      		<a href="{{pathFor 'viewTicketPage'}}"><span class="label label-sm label-danger">Closed</span></a>
+														      	{{/if}}
+																
+															</span>
+														
+														</div>
+														<div class="item-body">
+															 {{notes}}
+														</div>
+													</div>
+													{{/each}}
+													
+													
+													
+													
+												</div>
+										</div>
+									</div>
+									<!-- END PORTLET -->
+								</div>
+								
+								
+								
+								
+								<div class="col-md-6">
+									<!-- BEGIN PORTLET -->
+									<div class="portlet light tasks-widget">
+										<div class="portlet-title">
+											<div class="caption caption-md">
+												<i class="icon-bar-chart theme-font hide"></i>
+												<span class="caption-subject font-blue-madison bold uppercase">Tasks</span>
+												<span class="caption-helper">{{count_schedule}} task(s)</span>
+											</div>
+										</div>
+										
+										<div class="portlet-body">
+											<div class="task-content">
+													<!-- START TASK LIST -->
+													<ul class="task-list scroller sortable-ul" style="height: 250px">
+														{{#sortable items=employee.profile.schedule sortField="order"}}
+														<li>
+															<a id="view_task" href="">
+																<div class="task-title">
+																	<span id="task" name="task" class="task-title-sp">
+																	{{ this.item }} </span>
+																	<span id="client_name" name="client" class="label label-sm label-success">{{this.client}}</span>
+																</div>
+															</a>
+															<div class="task-config">
+																<div class="task-config-btn btn-group">
+																	<a class="btn btn-xs default" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" aria-expanded="false">
+																	<i class="fa fa-cog"></i><i class="fa fa-angle-down"></i>
+																	</a>
+																	<ul class="dropdown-menu pull-right">
+																		<li>
+																			<a id="schedule_complete" href="javascript:;">
+																			<i class="fa fa-check"></i> Complete </a>
+																		</li>
+																		<li>
+																			<a id="schedule_edit" href="javascript:;">
+																			<i class="fa fa-pencil"></i> Edit </a>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+												
+												
+														</li>
+														{{/sortable}}
+													</ul>
+													<!-- END START TASK LIST -->
+											</div>
+											<div class="task-footer">
+												<div class="btn-arrow-link pull-left">
+													<a id="schedule_remove_all" href="javascript:;">Remove All Items</a>
+												</div>
+												<div class="btn-arrow-link pull-right">
+													<a id="add_schedule_item" href="javascript:;">Add Task</a>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- END PORTLET -->
+								</div>
+								
+								</div>
+							
+						
+						</div>
+					</div>
+				</div>
+
+    </form>
+    
+    
+        <div id="modal1" class="modal fade bs-modal-lg in modal-scrollable" tabindex="-1" role="dialog" aria-hidden="true">
+  	<form action="#" id="modal_form1">
+    <div class="modal-dialog modal-lg">
+    	
+      <div class="modal-content">
+      <div class="modal-header">
+      	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+			<h4 class="modal-title">Add a task</h4>
+			</div>
+      <div class="modal-body">
+      	<div class="modal_section">
+
+      			<div class="form-group form-md-line-input">
+                    <input type="text" name="item" class="form-control" id="item" placeholder="Enter the schedule item" >
+                    <label for="item">Task</label>
+                </div>
+                
+                <div class="form-group form-md-line-input">
+					<select class="form-control" id="client" name="client">
+						<option value=""></option>
+						{{#each client}}
+							<option value="{{this.company}}">{{this.company}}</option>
+						{{/each}}
+					</select>
+					<label for="form_control_1">Choose client</label>
+				</div>
+      		
+      	</div>
+            </div>
+      
+        
+        
+            <div class="modal-footer">
+      <button type="submit" id="add_config_modal2" class="waves-effect waves-light btn green">Add task</button>
+    </div>
+    </div>
+        
+        </div>
+    </form>
+  </div>
+  
+  
+          <div id="modal2" class="modal fade bs-modal-lg in modal-scrollable" tabindex="-1" role="dialog" aria-hidden="true">
+  	<form action="#" id="modal_form2">
+    <div class="modal-dialog modal-lg">
+    	
+      <div class="modal-content">
+      <div class="modal-header">
+      	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+			<h4 class="modal-title">Edit a task</h4>
+			</div>
+      <div class="modal-body">
+      	<div class="modal_section">
+
+      			<div class="form-group form-md-line-input">
+                    <input type="text" name="item2" class="form-control" id="item2" placeholder="Enter the schedule item" >
+                    <label for="item2">Task</label>
+                </div>
+                
+                <div class="form-group form-md-line-input">
+					<select class="form-control" id="client2" name="client2">
+						<option value=""></option>
+						{{#each client}}
+							<option value="{{this.company}}">{{this.company}}</option>
+						{{/each}}
+					</select>
+					<label for="form_control_1">Choose client</label>
+				</div>
+      		
+      	</div>
+            </div>
+      
+        
+        
+            <div class="modal-footer">
+      <button type="submit" id="add_config_modal2" class="waves-effect waves-light btn green">Save item</button>
+    </div>
+    </div>
+        
+        </div>
+    </form>
+  </div>
+  
+              <div id="view_task_modal" class="modal fade bs-modal-lg in modal-scrollable" tabindex="-1" role="dialog" aria-hidden="true">
+  	<form action="#" id="view_task_modal_form">
+    <div class="modal-dialog modal-lg">
+    	
+      <div class="modal-content">
+      <div class="modal-header">
+      	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+			<h4 class="modal-title">View a task</h4>
+			</div>
+      <div class="modal-body">
+      	<div class="modal_section">
+
+      			<div class="form-group form-md-line-input">
+					<textarea id="task_modal3" name="task_modal3" class="form-control" rows="3" readonly></textarea>
+					<label for="form_control_1">Task</label>
+				</div>
+                
+                <div class="form-group form-md-line-input">
+					<select id="client_modal3" class="form-control" name="client_modal3" disabled>
+						{{#each client}}
+							<option value="{{this.company}}">{{this.company}}</option>
+						{{/each}}
+					</select>
+					<label for="form_control_1">Client</label>
+				</div>
+      		
+      	</div>
+            </div>
+    </div>
+        
+        </div>
+    </form>
+  </div>
+  
+  
+  
+      {{else}}
+      {{> clientPortalPage}}
+{{/if}}
+{{else}}
+	{{> loginPage}}
+{{/if}}
+</template>

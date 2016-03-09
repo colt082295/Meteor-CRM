@@ -1,0 +1,31 @@
+<template name="viewWebsitesSidebar">
+    <div class="sidebar_list">
+    {{#each posts}}
+      <li class="sidebar_list_item"><a class="test" href="{{pathFor 'viewWebsitePage'}}">{{company}}<span class="fa fa-pencil"></span></a></li>
+    {{/each}}
+    </div>
+  <li><a href="{{ pathFor 'viewWebsitesPage'}}" class="waves-effect waves-teal btn-flat">View All</a></li>
+  <li><a href="{{ pathFor 'addWebsitePage'}}" class="waves-effect waves-teal btn-flat">Add New Website <span class="sidebar_icon_right fa fa-plus"></span></a></li>
+</template>
+
+
+<template name="websiteSideSearch">
+        	<div class="sidebar-search">
+	<div class="input-group">
+		{{> inputAutocomplete settings=settings id="test" class="form-control" name="website" placeholder="Search..." }}
+		<span class="input-group-btn">
+		<a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
+		</span>
+	</div>
+	</div>
+</template>
+
+<template name="standardwebsiteSideSearch">
+     <a class="side_search_item" href="{{pathFor 'viewClientPage'}}">
+	     	{{website}}
+     </a>
+</template>
+
+<template name="standardWebsiteNoMatch">
+	
+</template>

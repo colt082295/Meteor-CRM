@@ -1,0 +1,53 @@
+<template name="admin">
+      <div class="template_wrapper grid-block">
+      	<div class="draggable_wrapper grid-block">
+      		<div class="draggable_container">
+      			<div class="draggable">
+      				<h3>Recent Clients</h3>
+      				<ul class="draggable_list">
+	      				{{#each client}}
+					      <li class="draggable_item"><a class="test" href="{{pathFor 'viewClientPage'}}">{{company}}</a><span class="fa fa-pencil right"></span></li>
+					    {{/each}}
+				    </ul>
+      			</div>
+      			<div class="draggable">
+      				<h4>Recent Inventory</h4>
+      				<ul class="draggable_list">
+	      				{{#each inventory}}
+					      <li class="draggable_item"><a class="test" href="{{pathFor 'viewInventoryPage'}}">{{item}}</a><span class="fa fa-pencil right"></span></li>
+					    {{/each}}
+				    </ul>
+      			</div>
+      			<div class="draggable">
+      				<h4>Recent Orders</h4>
+      				<ul class="draggable_list">
+	      				{{#each order}}
+					      <li class="draggable_item"><a class="test" href="{{pathFor 'viewOrderPage'}}">{{order}}</a><span class="fa fa-pencil right"></span></li>
+					    {{/each}}
+				    </ul>
+      			</div>
+      			<div class="draggable">
+      				<h4>Recent Tickets</h4>
+      				<ul class="draggable_list">
+	      				{{#each ticket}} <!-- For each ticket -->
+					      <li class="draggable_item"><a class="test" href="{{pathFor 'viewTicketPage'}}">{{company}}</a>
+					      <div class="draggable_info"><p>{{notes}}</p></div>
+							  {{#if equals status "Closed"}} <!-- If the status is closed -->
+								  <div class="ticket_info"><div class="icon_closed"></div><p>Closed</p></div>
+								{{else}}
+								  {{#if equals status "Open"}} <!-- If the status is open -->
+								    <div class="ticket_info"><div class="icon_open"></div><p>Open</p></div>
+								  {{else}} <!-- If the status is pending -->
+								    <div class="ticket_info"><div class="icon_pending"></div><p>Pending</p></div>
+								  {{/if}}
+								{{/if}}
+				            </li>
+					    {{/each}}
+				    </ul>
+      			</div>
+      		</div>
+      	</div>
+      </div>
+    <footer> <!-- Likely move this somewhere else -->
+    </footer>
+</template>

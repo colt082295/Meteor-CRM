@@ -1,0 +1,64 @@
+<template name="addEmployee">
+<form class="add_item">	
+    <div class="tabbable-custom nav-justified">
+								<ul class="nav nav-tabs nav-justified">
+									<li class="active">
+										<a data-target="#tab_1_1_1" data-toggle="tab" aria-expanded="true">
+										Basic Info </a>
+									</li>
+									<li class="">
+										<a data-target="#tab_1_1_2" data-toggle="tab" aria-expanded="true">
+										Notes </a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab_1_1_1">
+										        <div class="form-group form-md-line-input">
+                                                	<input type="text" name="name" class="form-control" id="form_control_1" placeholder="Enter the name" >
+                                                	<label for="form_control_1">Name</label>
+                                                </div>
+                                                
+                                                <div class="form-group form-md-line-input">
+                                                	<input type="text" name="phone" class="form-control mask_phone" id="phone" placeholder="Enter the phone number" >
+                                                	<label for="item">Phone</label>
+                                    </div>
+                                                
+                                                <div class="form-group form-md-line-input">
+                                                	<input type="text" name="email" class="form-control" id="email" placeholder="Enter the email" >
+                                                	<label for="item">Email</label>
+                                                </div>
+                                                
+									</div>
+									
+							
+									
+									
+									<div class="tab-pane" id="tab_1_1_2">
+										      <div class="form-group form-md-line-input">
+										<textarea name="notes" class="form-control" rows="3" placeholder="Enter notes here"></textarea>
+										<label for="form_control_1">Notes</label>
+									</div>
+									</div>
+								</div>
+							</div>
+    
+    
+    
+    
+    
+    
+    
+    
+            <div class="bottom_wrapper">
+        <button type="submit" class="submit btn btn-default blue">Add Employee</button>
+        </div>
+
+    
+    
+    
+
+
+    
+    
+</form>
+</template>

@@ -1,0 +1,188 @@
+<template name="topMenu">
+<!-- BEGIN BODY -->
+<!-- DOC: Apply "page-header-fixed-mobile" and "page-footer-fixed-mobile" class to body element to force fixed header or footer in mobile devices -->
+<!-- DOC: Apply "page-sidebar-closed" class to the body and "page-sidebar-menu-closed" class to the sidebar menu element to hide the sidebar by default -->
+<!-- DOC: Apply "page-sidebar-hide" class to the body to make the sidebar completely hidden on toggle -->
+<!-- DOC: Apply "page-sidebar-closed-hide-logo" class to the body element to make the logo hidden on sidebar toggle -->
+<!-- DOC: Apply "page-sidebar-hide" class to body element to completely hide the sidebar on sidebar toggle -->
+<!-- DOC: Apply "page-sidebar-fixed" class to have fixed sidebar -->
+<!-- DOC: Apply "page-footer-fixed" class to the body element to have fixed footer -->
+<!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
+<!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
+<!-- BEGIN HEADER -->
+<div class="page-header navbar md-shadow-z-1-i navbar-fixed-top">
+	<!-- BEGIN HEADER INNER -->
+	<div class="page-header-inner">
+		<!-- BEGIN LOGO -->
+		<div class="page-logo">
+			<a class="no-hover" href="{{pathFor 'home'}}">
+			<h3 class="logo-default">STC</h3>
+			</a>
+			<div class="menu-toggler sidebar-toggler">
+				<!-- DOC: Add/Remove the above "hide" to enable the sidebar toggler button on header -->
+			</div>
+					<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+		<a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+		</a>
+		<!-- END RESPONSIVE MENU TOGGLER -->
+		</div>
+		<!-- END LOGO -->
+		<!-- BEGIN TOP NAVIGATION MENU -->
+		<!-- BEGIN MEGA MENU -->
+		{{> megaMenu}}
+		<!-- END MEGA MENU -->
+		<div class="top-menu">
+			<ul class="nav navbar-nav pull-right">
+				<!-- BEGIN NOTIFICATION DROPDOWN -->
+				<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+				<li class="dropdown dropdown-extended dropdown-tasks dropdown-notification ms-hover" id="header_notification_bar">
+					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+					<i class="icon-bell"></i>
+					{{#if notifications.amount}}
+					<span class="badge badge-default">
+					 {{#with notifications.amount}} {{.}} {{/with}} </span> {{/if}}
+					</a>
+					<ul class="dropdown-menu">
+						<li class="external">
+							<h3><span class="bold">{{#with notifications.amount}} {{.}} {{/with}}</span> notifications</h3>
+							{{#with profile}}<a href="{{pathFor 'viewEmployeePage'}}">view all</a>{{/with}}
+						</li>
+						<li>
+							<ul class="dropdown-menu-list scroller" style="height: 250px;" data-handle-color="#637283">
+								{{#each ticket}}
+								{{#if equals priority "high"}}
+									<li class="high-priority">
+									<a href="{{pathFor 'viewTicketPage'}}">
+									<span class="time" name="time" id="time">
+										{{#if dayOld date_full}}
+											{{date}}
+										{{else}}
+											{{time}}
+									    {{/if}}
+									</span>
+									<span class="details">
+										{{#if equals status "Open"}}
+									      		<span class="label label-sm label-icon danger-rd">
+									      		<i class="fa fa-ticket"></i>
+												</span>
+									      	{{/if}}
+									      	
+									      	{{#if equals status "Pending"}}
+									      		<span class="label label-sm label-icon warning">
+									      		<i class="fa fa-ticket"></i>
+												</span>									      			
+									      	{{/if}}
+									      	
+									      	{{#if equals status "Closed"}}
+									      		<span class="label label-sm label-icon success">
+									      		<i class="fa fa-ticket"></i>
+												</span>									      			
+									     	{{/if}}
+									<b>Ticket:</b> <span class="blue-text">{{company}}</span></span>
+									</a>
+									</li>
+									{{else}}
+										<li>
+									<a href="{{pathFor 'viewTicketPage'}}">
+									<span class="time" name="time" id="time">
+										{{#if dayOld date_full}}
+											{{date}}
+										{{else}}
+											{{time}}
+									    {{/if}}
+									</span>
+									<span class="details">
+										{{#if equals status "Open"}}
+									      		<span class="label label-sm label-icon danger-rd">
+									      		<i class="fa fa-ticket"></i>
+												</span>
+									      	{{/if}}
+									      	
+									      	{{#if equals status "Pending"}}
+									      		<span class="label label-sm label-icon warning">
+									      		<i class="fa fa-ticket"></i>
+												</span>									      			
+									      	{{/if}}
+									      	
+									      	{{#if equals status "Closed"}}
+									      		<span class="label label-sm label-icon success">
+									      		<i class="fa fa-ticket"></i>
+												</span>									      			
+									     	{{/if}}
+									<b>Ticket:</b> <span class="blue-text">{{company}}</span></span>
+									</a>
+									</li>
+									{{/if}}
+								{{/each}}
+								
+								{{#each task}}
+									<li>
+										<a href="{{pathFor 'home' hash='tasks_list'}}">
+											<span class="photo label-float-left-50 label warning">
+												<i class="fa fa-tasks"></i>
+											</span>
+											<span class="subject">
+												<span class="from">
+												<b>Task: </b><span class="blue-text">{{client}}</span> </span>
+											</span>
+											<span class="message">
+											{{item}} </span>
+										</a>
+									</li>
+								{{/each}}
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<!-- END NOTIFICATION DROPDOWN -->
+				<!-- BEGIN USER LOGIN DROPDOWN -->
+				<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+				<li class="dropdown dropdown-user ms-hover">
+					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+					{{#if currentUser.profile.picture}}
+					<img alt="" class="img-circle" src="{{currentUser.profile.picture}}"/>
+					{{else}}
+					{{/if}}
+					<span class="username">
+					{{#if isEmpty currentUser.profile.info.name}}
+										{{currentUser.username}}
+									{{else}}
+										{{currentUser.profile.info.name}}
+									{{/if}}  </span>
+					<i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-default">
+						<li>
+							{{#with profile}}
+							<a href="{{pathFor 'viewEmployeePage'}}">
+							<i class="icon-user"></i> My Profile
+							</a>
+							{{/with}}
+						</li>
+						<li class="divider">
+						</li>
+						<li>
+							<a id="logout">
+							<i class="icon-key"></i> Logout </a>
+						</li>
+					</ul>
+				</li>
+				<!-- END USER LOGIN DROPDOWN -->
+				<!-- BEGIN QUICK SIDEBAR TOGGLER -->
+				<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+				<!--
+				<li class="dropdown dropdown-quick-sidebar-toggler">
+					<a href="javascript:;" class="dropdown-toggle">
+					<i class="icon-logout"></i>
+					</a>
+				</li>
+				-->
+				<!-- END QUICK SIDEBAR TOGGLER -->
+			</ul>
+		</div>
+		<!-- END TOP NAVIGATION MENU -->
+	</div>
+	<!-- END HEADER INNER -->
+</div>
+<!-- END HEADER -->
+</template>

@@ -1,0 +1,13 @@
+.bower-cache
+.bower-registry
+.bower-tmp
+db.1
+.uploads
+.sass-cache
+.packages
+.c9
+public/bower_components
+public/stream
+public/guessit-rest.log
+public/manifest.json
+server/kadira.js

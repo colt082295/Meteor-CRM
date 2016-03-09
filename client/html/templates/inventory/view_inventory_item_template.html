@@ -1,0 +1,114 @@
+<template name="viewInventoryItem">
+	{{#if currentUser}}
+    {{#if isInRole 'admin'}}
+	<script type="text/javascript" src="/assets/qr/grid.js"></script>
+<script type="text/javascript" src="/assets/qr/version.js"></script>
+<script type="text/javascript" src="/assets/qr/detector.js"></script>
+<script type="text/javascript" src="/assets/qr/formatinf.js"></script>
+<script type="text/javascript" src="/assets/qr/errorlevel.js"></script>
+<script type="text/javascript" src="/assets/qr/bitmat.js"></script>
+<script type="text/javascript" src="/assets/qr/datablock.js"></script>
+<script type="text/javascript" src="/assets/qr/bmparser.js"></script>
+<script type="text/javascript" src="/assets/qr/datamask.js"></script>
+<script type="text/javascript" src="/assets/qr/rsdecoder.js"></script>
+<script type="text/javascript" src="/assets/qr/gf256poly.js"></script>
+<script type="text/javascript" src="/assets/qr/gf256.js"></script>
+<script type="text/javascript" src="/assets/qr/decoder.js"></script>
+<script type="text/javascript" src="/assets/qr/qrcode.js"></script>
+<script type="text/javascript" src="/assets/qr/findpat.js"></script>
+<script type="text/javascript" src="/assets/qr/alignpat.js"></script>
+<script type="text/javascript" src="/assets/qr/databr.js"></script>
+	
+ <form class="add_order"> <!-- Start the form for the meteor backend to collect to store in the database -->
+    
+    <div class="tabbable-custom nav-justified">
+								<ul class="nav nav-tabs nav-justified">
+									<li class="active">
+										<a data-target="#tab_1_1_1" data-toggle="tab" aria-expanded="true">
+										{{item}} </a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab_1_1_1">
+										        <div class="form-group form-md-line-input">
+                                                	<input type="text" name="item" value="{{item}}" class="form-control" id="item" placeholder="Enter the item" >
+                                                	<label for="item">Item</label>
+                                                </div>
+                                                
+                                                <div class="form-group form-md-line-input">
+                                                	<input type="text" name="item_qty" value="{{item_qty}}" class="form-control" id="item_qty" placeholder="Enter the item quantity" >
+                                                	<label for="item_qty">Item Qty</label>
+                                                </div>
+                                                
+                                                <div class="form-group form-md-line-input has-success">
+										<label class="col-md-2 control-label" for="form_control_1">Description</label>
+										<div class="">
+											<textarea class="form-control" rows="3" placeholder="Enter description" name="description" id="description" value="description">{{description}}</textarea>
+											<div class="form-control-focus">
+											</div>
+										</div>
+									</div>
+									
+									<div class="form-group form-md-line-input col-md-8">
+                                                	<input type="text" name="barcode_qr" value="{{barcode_qr}}" class="form-control" id="barcode_qr" placeholder="Manually enter" >
+                                                	<label for="form_control_1">Barcode Number</label>
+                                                </div>
+                                                
+                                                <div class="form-group form-md-line-input col-md-4">
+                                                	<input type="text" name="barcode_format" value="{{barcode_format}}" class="form-control" id="barcode_format" placeholder="Barcode format" >
+                                                	<label for="form_control_1">Barcode Format</label>
+                                                </div>
+                                                
+                                                <div class="form-group form-md-line-input col-md-12">
+                                                	<input type="text" name="qr" value="{{qr}}" class="form-control" id="qr" placeholder="QR Code" >
+                                                	<label for="form_control_1">QR Code</label>
+                                                </div>
+                                                
+									</div>
+								</div>
+							</div>
+    
+    
+    
+    
+    
+    
+    
+    
+            <div class="bottom_wrapper">
+        <h5>Last edited: {{date}} at: {{time}}</h5>
+        <button type="submit" class="btn btn-default blue">Update item</button>
+        
+        
+        <button class="btn btn-default red" id="remove_from_db">Remove item from db</button>
+        
+        {{#if equals inventory "client"}}
+        
+        {{else}}
+        <button class="btn btn-default blue" id="client">Move to client inventory</button>
+        {{/if}}
+        {{#if equals inventory "delivered"}}
+        
+        {{else}}
+        	<button class="btn btn-default blue" id="delivered">Move to delivered inventory</button>
+        {{/if}}
+        {{#if equals inventory "returned"}}
+        
+        {{else}}
+        <button class="btn btn-default blue" id="returns">Move to retunrs</button>
+        {{/if}}
+        </div>
+
+    
+    
+    
+
+
+    </form>
+        {{else}}
+      {{> clientPortalPage}}
+{{/if}}
+{{else}}
+	{{> loginPage}}
+{{/if}}
+</template>

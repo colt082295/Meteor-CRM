@@ -1,0 +1,1 @@
+$(".page-sidebar-menu li").has(".active").addClass( "active" );

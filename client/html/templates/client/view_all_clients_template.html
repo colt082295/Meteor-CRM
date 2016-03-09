@@ -1,0 +1,16 @@
+
+<template name="allClientsList">
+  {{#if currentUser}}
+    {{#if isInRole 'admin'}}
+    {{> tabular table=TabularTables.Clients id="user-files" class="table table-striped table-bordered table-condensed"}}
+      {{else}}
+      {{> clientPortalPage}}
+{{/if}}
+{{else}}
+	{{> loginPage}}
+{{/if}}
+</template>
+<template name="bookCheckOutCell">
+  <a href="{{pathFor 'viewClientPage' _id=this._id}}" type="button" class="btn btn-xs check-out">Edit</a>
+
+</template>

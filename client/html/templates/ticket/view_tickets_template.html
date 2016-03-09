@@ -1,0 +1,33 @@
+<template name="allTicketsList">
+    {{#if currentUser}}
+    {{#if isInRole 'admin'}}
+    {{> tabular table=TabularTables.Tickets id="user-files" class="table table-striped table-bordered table-condensed"}}
+     	    {{else}}
+      {{> clientPortalPage}}
+{{/if}}
+{{else}}
+	{{> loginPage}}
+{{/if}}
+</template>
+<template name="edit_ticket_list">
+  <a href="{{pathFor 'viewTicketPage' _id=this._id}}" type="button" class="btn btn-xs check-out">Edit</a>
+</template>
+<template name="ticket_list_status">
+    {{#if equals this.status "Open"}}
+  		<span class="label label-sm label-icon danger-rd">
+  		<i class="fa fa-ticket"></i>
+		</span>
+  	{{/if}}
+  	
+  	{{#if equals thisstatus "Pending"}}
+  		<span class="label label-sm label-icon warning">
+  		<i class="fa fa-ticket"></i>
+		</span>									      			
+  	{{/if}}
+  	
+  	{{#if equals status "Closed"}}
+  		<span class="label label-sm label-icon success">
+  		<i class="fa fa-ticket"></i>
+		</span>									      			
+ 	{{/if}}
+</template>

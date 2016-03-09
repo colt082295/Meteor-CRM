@@ -1,0 +1,105 @@
+<template name="addTicket">
+    {{#if currentUser}}
+    {{#if isInRole 'admin'}}
+<form class="add_ticket"> <!-- Start the form for the meteor backend to collect to store in the database -->
+    
+    <div class="tabbable-custom nav-justified">
+								<ul class="nav nav-tabs nav-justified">
+									<li class="active">
+										<a data-target="#tab_1_1_1" data-toggle="tab" aria-expanded="true">
+										Ticket Info </a>
+									</li>
+									<li class="">
+										<a data-target="#tab_1_1_2" data-toggle="tab" aria-expanded="false">
+										Notes </a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab_1_1_1">
+                							<div class="form-group form-md-line-input">
+      												<select class="form-control" name="company_name" id="company_name">
+      													{{#each client}}
+      														<option value="{{company}}">{{company}}</option>
+      													{{/each}}
+      												</select>
+      												<label for="company_name">Client</label>
+      												</div>
+                              
+                              <div class="form-group form-md-line-input">
+                                <input type="text" name="contact_name" class="form-control" id="form_control_1" placeholder="Enter the contact name" >
+                                <label for="form_control_1">Contact Name</label>
+                              </div>
+                              
+                              <div class="form-group form-md-line-input">
+                                <input type="text" name="contact_phone" class="form-control mask_phone" id="form_control_1" placeholder="Enter the contact phone" >
+                                <label for="form_control_1">Contact Phone</label>
+                              </div>
+                              
+                              <div class="form-group form-md-line-input">
+                                <input type="text" name="contact_email" class="form-control" id="form_control_1" placeholder="Enter the contact email" >
+                                <label for="form_control_1">Contact Email</label>
+                              </div>
+                              
+                              <div class="form-group form-md-line-input">
+											<select class="bs-select form-control" id="employee" name="employee" multiple>
+												{{#each employee}}
+        														<option value="{{username}}">{{username}}</option>
+        									{{/each}}
+											</select>
+											<label for="employee">Employee</label>
+                                
+                            </div>    
+                                
+                                
+                                
+              
+      												
+      					    <div class="form-group form-md-line-input">
+      												<select class="form-control" name="priority" id="priority">
+      														<option value="low">Low</option>
+      														<option value="medium">Medium</option>
+      														<option value="high">High</option>
+      												</select>
+      												<label for="priority">Priority</label>
+      											</div>
+      												
+                    				  <div class="form-group form-md-checkboxes">
+              									<label>Send email?</label>
+              									<div class="md-checkbox-list">
+              										<div class="md-checkbox">
+              											<input type="checkbox" id="checkbox" class="md-check">
+              											<label for="checkbox">
+              											<span></span>
+              											<span class="check"></span>
+              											<span class="box"></span>
+              											Send email to employee </label>
+              										</div>
+              									</div>
+              								</div>
+								</div>
+
+									<div class="tab-pane" id="tab_1_1_2">
+									    <div class="form-group form-md-line-input form-md-floating-label">
+										<textarea class="form-control" name="notes" rows="3"></textarea>
+										<label for="notes">Notes</label>
+									</div>
+
+									</div>
+    
+    
+    
+            <div class="bottom_wrapper">
+        <button type="submit" class="btn btn-default blue">Add ticket</button>
+        </div>
+        
+        
+        </div>
+</div>
+    </form>
+        {{else}}
+      {{> clientPortalPage}}
+{{/if}}
+{{else}}
+	{{> loginPage}}
+{{/if}}
+</template>

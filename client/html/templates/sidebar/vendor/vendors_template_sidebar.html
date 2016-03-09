@@ -1,0 +1,41 @@
+<template name="vendorSidebar">
+<li class="start ">
+					<a href="javascript:;">
+					<i class="icon-home"></i>
+					<span class="title">Vendors</span>
+					<span class="arrow "></span>
+					</a>
+					<ul class="sub-menu">
+						{{> vendorSideSearch}}
+							{{#each vendor}}
+								<li>
+									<a href="{{pathFor 'viewVendorPage'}}">
+									<i class="icon-bar-chart"></i>
+									{{this.vendor}}</a>
+								</li>
+							{{/each}}
+							<a href="{{pathFor 'addVendorPage'}}" class="btn btn-default blue">Add New Vendor</a>
+							<a href="{{pathFor 'vendorsPage'}}" class="btn btn-default blue">View All Vendors</a>
+					</ul>
+				</li>
+</template>
+
+
+
+<template name="vendorSideSearch">
+	<div class="sidebar-search">
+	<div class="input-group">
+		{{> inputAutocomplete settings=settings id="test" class="form-control" name="vendor" placeholder="Search..." }}
+		<span class="input-group-btn">
+		<a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
+		</span>
+	</div>
+	</div>
+        
+</template>
+
+<template name="standarVendorlientSideSearch">
+     <a class="side_search_item" href="{{pathFor 'viewVendorPage'}}">
+	     	{{vendor}}
+     </a>
+</template>

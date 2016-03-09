@@ -1,0 +1,11 @@
+<template name="home">
+  {{#if currentUser}}
+    {{#if isInRole 'admin'}}
+      {{> adminHomePage}}
+    {{else}}
+      {{> clientPortalPage}}
+    {{/if}}
+  {{else}}
+    {{> loginPage}}
+  {{/if}}
+</template>

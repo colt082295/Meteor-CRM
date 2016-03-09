@@ -1,0 +1,113 @@
+<template name="addService">
+	{{#if currentUser}}
+    {{#if isInRole 'admin'}}
+        <form class="add_order"> <!-- Start the form for the meteor backend to collect to store in the database -->
+    
+    <div class="tabbable-custom nav-justified">
+								<ul class="nav nav-tabs nav-justified">
+									<li class="active">
+										<a data-target="#tab_1_1_1" data-toggle="tab" aria-expanded="true">
+										Service </a>
+									</li>
+									<li class="">
+										<a data-target="#tab_1_1_2" data-toggle="tab" aria-expanded="false">
+										Notes </a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab_1_1_1">
+									
+									<div class="form-group form-md-line-input form-md-floating-label has-info">
+										<select class="form-control edited" id="form_control_1" name="service_group">
+											{{#each service_group}}
+											<option value="{{this.service_group}}">{{this.service_group}}</option>
+											{{/each}}
+										</select>
+										<label for="form_control_1">Choose service group</label>
+									</div>
+										
+										
+										        <div class="form-group form-md-line-input">
+                                                	<input type="text" name="service" class="form-control" id="form_control_1" placeholder="Enter the service" >
+                                                	<label for="form_control_1">Service</label>
+                                                </div>
+                                                
+                                                
+                                        {{> editor}}
+										 
+										
+										 	<div class="form-group form-md-line-input form-md-floating-label col-md-4">
+										<div class="input-group left-addon right-addon">
+											<span class="input-group-addon">$</span>
+											<input type="text" class="form-control" name="setup_fee">
+											<span class="input-group-addon">.00</span>
+											<label for="form_control_1">Setup Fee</label>
+										</div>
+									</div>
+												
+											
+											
+											
+											<div class="form-group form-md-line-input form-md-floating-label col-md-4">
+										<div class="input-group left-addon right-addon">
+											<span class="input-group-addon">$</span>
+											<input type="text" class="form-control" name="cont_fee">
+											<span class="input-group-addon">.00</span>
+											<label for="form_control_1">Continuous Fee</label>
+										</div>
+									</div>
+												
+											
+											
+											
+											<div class="form-group form-md-line-input form-md-floating-label has-info col-md-4">
+										<select class="form-control edited" id="form_control_1" name="cont_bill">
+											<option value="1">Monthly</option>
+											<option value="2">Bi-Monthly</option>
+											<option value="3" selected="">Quarterly</option>
+											<option value="4">Annually</option>
+										</select>
+										<label for="form_control_1">Billing Cycle</label>
+									</div>
+
+                                                
+
+                                                
+									</div>
+									<div class="tab-pane" id="tab_1_1_2">
+									    <div class="form-group form-md-line-input has-success">
+										<label class="col-md-2 control-label" for="form_control_1">Notes</label>
+										<div class="">
+											<textarea class="form-control" rows="3" placeholder="Enter notes" name="notes"></textarea>
+											<div class="form-control-focus">
+											</div>
+										</div>
+									</div>
+									</div>
+								</div>
+							</div>
+    
+    
+    
+    
+    
+    
+    
+    
+            <div class="bottom_wrapper">
+        <button type="submit" class="btn btn-default blue">Add service</button>
+        </div>
+
+    
+    
+    
+
+
+    </form>
+        {{else}}
+      {{> clientPortalPage}}
+{{/if}}
+{{else}}
+	{{> loginPage}}
+{{/if}}
+</template>

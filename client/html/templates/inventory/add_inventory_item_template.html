@@ -1,0 +1,224 @@
+<template name="addInventoryItem">
+	{{#if currentUser}}
+    {{#if isInRole 'admin'}}
+<form class="add_item">	
+    <div class="tabbable-custom nav-justified">
+								<ul class="nav nav-tabs nav-justified">
+									<li class="active">
+										<a data-target="#tab_1_1_1" data-toggle="tab" aria-expanded="true">
+										Item </a>
+									</li>
+									<li class="">
+										<a data-target="#tab_1_1_2" data-toggle="tab" aria-expanded="true">
+										Barcode/QR </a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab_1_1_1">
+										        <div class="form-group form-md-line-input">
+                                                	<input type="text" name="item" class="form-control" id="form_control_1" placeholder="Enter the item" >
+                                                	<label for="form_control_1">Item</label>
+                                                </div>
+                                                
+                                                <div class="form-group form-md-line-input">
+                                                	<input type="text" name="item_qty" class="form-control" id="form_control_1" placeholder="Enter the item quantity" >
+                                                	<label for="form_control_1">Item Qty</label>
+                                                </div>
+                                                
+                                                <div class="form-group form-md-line-input has-success">
+										<label class="col-md-2 control-label" for="form_control_1">Description</label>
+										<div class="">
+											<textarea class="form-control" rows="3" placeholder="Enter description" name="description"></textarea>
+											<div class="form-control-focus">
+											</div>
+										</div>
+									</div>
+                                                
+									</div>
+									
+									
+									<div class="tab-pane" id="tab_1_1_2">
+										        <div class="form-group form-md-line-input col-md-8">
+                                                	<input type="text" name="barcode_qr" class="form-control" id="barcode_qr" placeholder="Manually enter" >
+                                                	<label for="form_control_1">Manually enter number</label>
+                                                </div>
+                                                
+                                                <div class="form-group form-md-line-input col-md-4">
+                                                	<input type="text" name="barcode_format" class="form-control" id="barcode_format" placeholder="Barcode format" >
+                                                	<label for="form_control_1">Barcode Format</label>
+                                                </div>
+                                                
+                                                <div class="form-group form-md-line-input col-md-12">
+                                                	<input type="text" name="qr" class="form-control" id="qr" placeholder="QR Code" >
+                                                	<label for="form_control_1">QR Code</label>
+                                                </div>
+                                                
+                                                <h3>Scan Barcode</h3>
+             									
+             									
+												<div id="container">
+															<canvas width="320" height="240" id="picture"></canvas>
+															<input id="Take-Picture" type="file" accept="image/*;capture=camera" />
+														</div>
+														
+												
+												
+												<script>
+															var takePicture = document.querySelector("#Take-Picture"),
+															showPicture = document.createElement("img");
+															Result = document.querySelector("#textbit");
+															var canvas =document.getElementById("picture");
+															var ctx = canvas.getContext("2d");
+															JOB.Init();
+															JOB.SetImageCallback(function(result) {
+																if(result.length > 0){
+																	var tempArray = [];
+																	for(var i = 0; i &lt; result.length; i++) {
+																		tempArray.push(result[i].Format+" : "+result[i].Value);
+																		$('#barcode_qr').val(result[i].Value);
+																		$('#barcode_format').val(result[i].Format);
+																	}
+																}else{
+																	if(result.length === 0) {
+																		alert("Decoding failed. Please try again or enter it manually. You might want to try having more light on the barcode. You can also try to use the alternate scanner.");
+																	}
+																}
+															});
+															JOB.PostOrientation = true;
+															JOB.OrientationCallback = function(result) {
+																canvas.width = result.width;
+																canvas.height = result.height;
+																var data = ctx.getImageData(0,0,canvas.width,canvas.height);
+																for(var i = 0; i &lt; data.data.length; i++) {
+																	data.data[i] = result.data[i];
+																}
+																ctx.putImageData(data,0,0);
+															};
+															JOB.SwitchLocalizationFeedback(true);
+															JOB.SetLocalizationCallback(function(result) {
+																ctx.beginPath();
+																ctx.lineWIdth = "2";
+																ctx.strokeStyle="red";
+																for(var i = 0; i &lt; result.length; i++) {
+																	ctx.rect(result[i].x,result[i].y,result[i].width,result[i].height); 
+																}
+																ctx.stroke();
+															});
+															if(takePicture && showPicture) {
+																takePicture.onchange = function (event) {
+																	var files = event.target.files;
+																	if (files && files.length > 0) {
+																		file = files[0];
+																		try {
+																			var URL = window.URL || window.webkitURL;
+																			showPicture.onload = function(event) {
+																				JOB.DecodeImage(showPicture);
+																				URL.revokeObjectURL(showPicture.src);
+																			};
+																			showPicture.src = URL.createObjectURL(file);
+																		}
+																		catch (e) {
+																			try {
+																				var fileReader = new FileReader();
+																				fileReader.onload = function (event) {
+																					showPicture.onload = function(event) {
+																						JOB.DecodeImage(showPicture);
+																					};
+																					showPicture.src = event.target.result;
+																				};
+																				fileReader.readAsDataURL(file);
+																			}
+																			catch (e) {
+																				alert("Neither createObjectURL or FileReader are supported");
+																			}
+																		}
+																	}
+																};
+															}
+												</script>
+												
+												<h3>Scan QR Code</h3>
+												
+												
+												<input type="file" name="" id="qr_file" onchange="previewFile()" class="btn blue">
+ 
+												 <div style="height:200px">
+												  <img src="" id="preview" height="200" alt="Image preview..." />
+												 </div>
+												
+												<a href="" id="decode" onclick="decode()" class="btn red">Decode</a>
+												
+												<script>
+													function read(a) //Read the QR Code
+												{
+													console.log(a);
+													$('input[name="qr"]').val(a);
+												}
+												       
+												$(document).ready(function() {
+												      qrcode.callback = read;
+												});
+												</script>
+												<script>
+													function previewFile() {
+												  var preview = document.querySelector('#preview');
+												  var file    = document.querySelector('#qr_file').files[0];
+												  var reader  = new FileReader();
+												 
+												  reader.onloadend = function () {
+												    preview.src = reader.result;
+												  }
+												 
+												  if (file) {
+												    reader.readAsDataURL(file);
+												  } else {
+												    preview.src = "";
+												  }
+												  
+													}
+												</script>
+												<script>
+													function decode() {
+												    try
+												    {
+												    var preview=document.querySelector('#preview');
+												    qrcode.decode(preview.src);
+												    }
+												    catch (e)
+												    {
+												       alert('Error - ' + e);
+												    }
+												}
+												</script>
+							
+                                                
+									</div>
+								</div>
+							</div>
+    
+    
+    
+    
+    
+    
+    
+    
+            <div class="bottom_wrapper">
+        <button type="submit" class="submit btn btn-default blue">Add item</button>
+        </div>
+
+    
+    
+    
+
+
+    
+    
+</form>
+    {{else}}
+      {{> clientPortalPage}}
+{{/if}}
+{{else}}
+	{{> loginPage}}
+{{/if}}
+</template>

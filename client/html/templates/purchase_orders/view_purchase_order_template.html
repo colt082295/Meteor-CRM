@@ -1,0 +1,86 @@
+<template name="viewPurchaseOrder">
+	{{#if currentUser}}
+    {{#if isInRole 'admin'}}
+        <form class="add_order"> <!-- Start the form for the meteor backend to collect to store in the database -->
+    
+    <div class="tabbable-custom nav-justified">
+								<ul class="nav nav-tabs nav-justified">
+									<li class="active">
+										<a data-target="#tab_1_1_1" data-toggle="tab" aria-expanded="true">
+										Purchase Order </a>
+									</li>
+									<li class="">
+										<a data-target="#tab_1_1_2" data-toggle="tab" aria-expanded="false">
+										Notes </a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab_1_1_1">
+										        <div class="form-group form-md-line-input">
+                                                	<input type="text" name="company" value="{{company}}" class="form-control" id="form_control_1" placeholder="Enter the company" >
+                                                	<label for="form_control_1">Company</label>
+                                                </div>
+                                                
+                                                <div class="form-group form-md-line-input form-md-floating-label has-info col-md-4">
+													<select class="form-control edited" id="form_control_1" name="vendor">
+														{{#each vendor}}
+														<option value="{{this.vendor}}" selected="{{isEqual this.vendor ../vendor }}">{{this.vendor}}</option>
+														{{/each}}
+													</select>
+													<label for="form_control_1">Choose a vendor</label>
+												</div>
+												
+												<div class="form-group form-md-line-input col-md-4">
+                                                	<input type="text" name="item" value="{{item}}" class="form-control" id="form_control_1" placeholder="Enter the item" >
+                                                	<label for="form_control_1">Item</label>
+                                                </div>
+                                                
+                                                <div class="form-group form-md-line-input form-md-floating-label col-md-4">
+													<div class="input-group left-addon right-addon" edited>
+														<span class="input-group-addon">$</span>
+														<input type="text" class="form-control edited" name="item_qty" value="{{item_qty}}">
+														<span class="input-group-addon">.00</span>
+														<label for="form_control_1">Item Qty</label>
+													</div>
+												</div>
+									</div>
+									<div class="tab-pane" id="tab_1_1_2">
+									    <div class="form-group form-md-line-input has-success">
+										<label class="col-md-2 control-label" for="form_control_1">Notes</label>
+										<div class="">
+											<textarea class="form-control" rows="3" placeholder="Enter notes" name="notes" value="notes">{{notes}}</textarea>
+											<div class="form-control-focus">
+											</div>
+										</div>
+									</div>
+									</div>
+								</div>
+							</div>
+    
+    
+    
+    
+    
+    
+    
+    
+            <div class="bottom_wrapper">
+        <h5>Last edited: {{date}} at: {{time}}</h5>
+        <button type="submit" class="btn btn-default blue">Update quote</button>
+        <button class="btn btn-default red" id="remove_from_db">Remove quote from db</button>
+        </div>
+
+    
+    
+    
+
+
+    </form>
+    {{else}}
+      {{> clientPortalPage}}
+{{/if}}
+{{else}}
+	{{> loginPage}}
+{{/if}}    
+    
+</template>

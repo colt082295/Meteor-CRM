@@ -1,0 +1,159 @@
+<template name="addQuote">
+	{{#if currentUser}}
+    {{#if isInRole 'admin'}}
+        <form class="add_order"> <!-- Start the form for the meteor backend to collect to store in the database -->
+    
+    <div class="tabbable-custom nav-justified">
+								<ul class="nav nav-tabs nav-justified">
+									<li class="active">
+										<a data-target="#tab_1_1_1" data-toggle="tab" aria-expanded="true">
+										Quote </a>
+									</li>
+									<li class="">
+										<a data-target="#tab_1_1_2" data-toggle="tab" aria-expanded="false">
+										Notes </a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab_1_1_1">
+										        <div class="form-group form-md-line-input">
+                                                	<input type="text" name="company" class="form-control" id="form_control_1" placeholder="Enter the company" >
+                                                	<label for="form_control_1">Company</label>
+                                                </div>
+                                                <div class="workstations">
+                                                
+                                                <div class="col-md-12 form_title">
+                                                <h2 class="">Workstations/Laptops</h2>
+                                                </div>
+                                                <div class="form-group form-md-line-input col-md-6">
+                                                	<div class="input-group">
+                                                	<span class="input-group-btn btn-left">
+							<a class="btn red listExRemove">X</a>
+							</span>
+                                                	<input type="text" name="workstations" class="form-control" id="form_control_1" placeholder="Enter the product" >
+                                                	<label for="form_control_1">Product</label>
+                                                	</div>
+                                                </div>
+                                                
+	                                        <div class="form-group form-md-line-input col-md-3">
+                                                	<input type="number" id="mask_number" name="quantity" class="form-control" placeholder="Enter quantity">
+                                                	<label for="mask_number">Quantity</label>
+                                                </div>    
+                                                
+                                                <div class="form-group form-md-line-input col-md-3">
+							<div class="input-group">
+								<span class="input-group-addon">$</span>
+								<input type="text" name="price" class="form-control" placeholder="Enter amount">
+								<div class="form-control-focus">
+								</div>
+								<span class="input-group-addon">.00</span>
+							</div>
+						</div>
+						</div>
+						<a href="" id="add_product" class="btn blue right">Add another</a>
+											
+											<div class="col-md-12 form_title">
+											<h2 class="">Customer Site Infrastructure Requirements</h2>
+											</div>
+											<div class="requirements">
+											
+                                                <div class="form-group form-md-line-input col-md-6">
+                                                	<div class="input-group">
+                                                	<span class="input-group-btn btn-left">
+							<a class="btn red" id="remove_requirement">X</a>
+							</span>
+                                                	<input type="text" name="requirements" class="form-control" id="form_control_1" placeholder="Enter the product" >
+                                                	<label for="form_control_1">Product</label>
+                                                	</div>
+                                                </div>
+                                                
+                                                <div class="form-group form-md-line-input col-md-6">
+											<div class="input-group">
+												<span class="input-group-addon">$</span>
+												<input type="text" name="price_2" class="form-control" placeholder="Enter amount">
+												<div class="form-control-focus">
+												</div>
+												<span class="input-group-addon">.00</span>
+											</div>
+											</div>
+											</div>
+											<a href="" id="add_requirement" class="btn blue right">Add another</a>
+											
+											<div class="col-md-12 form_title">
+											<h2 class="">Services</h2>
+											</div>
+											
+										<div class="services">	
+										<div class="form-group form-md-line-input form-md-floating-label has-info col-md-6">
+										<div class="input-group">
+			                                                	<span class="input-group-btn btn-left">
+										<a class="btn red" id="remove_service">X</a>
+										</span>
+										<select class="form-control edited" id="form_control_1" name="service">
+											{{#each services}}
+												<option value="{{this.service}}">{{this.service}}</option>
+											{{/each}}
+										</select>
+										</div>
+										<label for="form_control_1">Services</label>
+										</div>
+										</div>
+										<a href="" id="add_service" class="btn blue right">Add another</a>
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+											
+											
+									</div>
+                                                
+									<div class="tab-pane" id="tab_1_1_2">
+									    <div class="form-group form-md-line-input has-success">
+										<label class="col-md-2 control-label" for="form_control_1">Notes</label>
+										<div class="">
+											<textarea class="form-control" rows="3" placeholder="Enter notes" name="notes"></textarea>
+											<div class="form-control-focus">
+											</div>
+										</div>
+									</div>
+									</div>
+								</div>
+								</div>
+    
+    
+    
+    
+    
+    
+    
+    
+            <div class="bottom_wrapper">
+        <button type="submit" class="btn btn-default blue">Add quote</button>
+        </div>
+
+    
+    
+    
+
+
+    </form>
+        {{else}}
+      {{> clientPortalPage}}
+{{/if}}
+{{else}}
+	{{> loginPage}}
+{{/if}}
+</template>

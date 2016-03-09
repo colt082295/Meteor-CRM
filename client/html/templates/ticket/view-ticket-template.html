@@ -1,0 +1,750 @@
+<template name="viewTicket">
+	{{#if currentUser}}
+    {{#if isInRole 'admin'}}
+    <form class="update_ticket"> <!-- Start the form for the meteor backend to collect to store in the database -->
+    
+    <div class="tabbable-custom nav-justified">
+								<ul class="nav nav-tabs nav-justified">
+									<li class="active" role="presentation">
+										<a data-target="#tab_1_1_1" data-toggle="tab" aria-controls="tab_1_1_1" role="tab">
+										Ticket Info </a>
+									</li>
+									<li class="" role="presentation">
+										<a data-target="#tab_1_1_2" data-toggle="tab" aria-controls="tab_1_1_2" role="tab">
+										Notes </a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab_1_1_1" role="tabpanel">
+                								<div class="form-group form-md-line-input">
+      												<select class="form-control" name="company_name" id="company_name">
+      													{{#each client}}
+      														<option value="{{company}}" selected="{{isEqual company ../company }}">{{company}}</option>
+      													{{/each}}
+      												</select>
+      												<label for="company_name">Client</label>
+      											</div>
+                              
+                              						        <div class="form-group form-md-line-input">
+                                <input type="text" name="client_name" value="{{client_name}}" class="form-control" id="client_name" placeholder="Enter the client name" >
+                                <label for="client_name">Client Name</label>
+                              </div>
+                              
+                              <div class="form-group form-md-line-input">
+                                <input type="text" name="contact_phone" value="{{contact_phone}}" class="form-control mask_phone" id="form_control_1" placeholder="Enter the contact phone" >
+                                <label for="form_control_1">Contact Phone</label>
+                              </div>
+                              
+                              <div class="form-group form-md-line-input">
+                                <input type="text" name="contact_email" value="{{contact_email}}" class="form-control" id="form_control_1" placeholder="Enter the contact email" >
+                                <label for="form_control_1">Contact Email</label>
+                              </div>
+                              
+                              
+                              
+                              
+                   <div class="form-group form-md-radios">
+									<label>Status</label>
+									<div class="md-radio-list">
+										<div class="md-radio">
+											<input type="radio" id="radio25" name="ticket_status" class="md-radiobtn" value="Open" checked='{{isEqual "Open" status }}'>
+											<label for="radio25">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Open </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="radio26" name="ticket_status" class="md-radiobtn" value="Pending" checked='{{isEqual "Pending" status }}'>
+											<label for="radio26">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Pending </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="radio27" name="ticket_status" class="md-radiobtn" value="Closed" checked='{{isEqual "Closed" status }}'>
+											<label for="radio27">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Closed </label>
+										</div>
+									</div>
+								</div>
+								
+								
+								<div class="form-group form-md-line-input">
+		<select class="form-control" id="employee" name="employee" multiple="multiple">
+		{{#each employee}}
+						<option value="{{username}}" >{{username}}</option>
+	{{/each}}
+	</select>
+		<label for="employee">Employee</label>
+	</div>
+								
+								
+								<div class="form-group form-md-line-input">
+      												<select class="form-control" name="priority" id="priority">
+      														<option value="low" selected="{{isEqual 'low' priority }}">Low</option>
+      														<option value="medium" selected="{{isEqual 'medium' priority }}">Medium</option>
+      														<option value="high" selected="{{isEqual 'high' priority }}">High</option>
+      												</select>
+      												<label for="priority">Priority</label>
+      											</div>
+					{{#if equals status "Closed"}} 							
+						<table class="table table-bordered table-striped table-condensed flip-content">
+							<thead class="flip-content">
+							<tr>
+								<th>
+									 Problem resolved?
+								</th>
+								<th>
+									 Customer contacted?
+								</th>
+								<th>
+									 Billable time?
+								</th>
+								<th>
+									 Used parts?
+								</th>
+								<th>
+									 Notes
+								</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>
+									 {{this.resolved}}
+								</td>
+								<td>
+									 {{this.contacted}}
+								</td>
+								<td>
+									 {{this.billable}}
+								</td>
+								<td>
+									 {{this.parts}}
+								</td>
+								<td>
+									{{this.notes}}
+								</td>
+							</tr>
+							</tbody>
+							</table>
+					{{/if}}					
+					
+						
+								</div>
+
+									<div class="tab-pane" id="tab_1_1_2">
+									    <div class="form-group form-md-line-input form-md-floating-label">
+										<textarea class="form-control edited" name="notes" value="{{notes}}" rows="3" edited></textarea>
+										<label for="notes">Notes</label>
+									</div>
+
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									</div>
+    
+    
+    
+            <div class="bottom_wrapper">
+        <h5>Last edited: {{date}} at: {{time}}</h5>
+        <button type="submit" class="btn btn-default blue">Update ticket</button>
+        <button class="btn btn-default red" id="remove_from_db">Remove ticket from db</button>
+        </div>
+        
+        
+        </div>
+
+</div>
+    </form>
+
+<div id="modal1" class="modal fade bs-modal-lg in modal-scrollable" tabindex="-1" role="dialog" aria-hidden="true">
+	 <form action="#" id="modal_form">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      <div class="modal-header">
+      	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+			<h4 class="modal-title">Are you sure the ticket is finished?</h4>
+			</div>
+			
+      <div class="modal-body">
+					<div class="form-group form-md-line-input">
+						<div class="input-group">
+							<span class="input-group-btn btn-left">
+									  <button type="button" class="btn btn-default selectpicker dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									    Configs <span class="caret"></span>
+									  </button>
+									  <ul class="dropdown-menu">
+									    <li><a id="add_config" href="#">Add new config</a></li>
+									    <li><a id="edit_config" href="#">Edit config</a></li>
+									  </ul>
+							</span>
+						    <div class="input-group-control">
+								<select class="form-control" id="saved_config" name="saved_config">
+								  <option value=""></option>
+								  {{#each currentUser.profile.saved_configs}}
+									<option value="{{config}}">{{config}}</option>
+								  {{/each}}
+							  </select>
+							  <label for="saved_notes">Saved Configurations</label>
+							</div>
+						</div>
+					</div>	
+						
+						
+									
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+     
+          <div class="modal_section">
+          
+                <div class="form-group form-md-radios">
+									<label>Has the problem been resolved?</label>
+									<div class="md-radio-list">
+										<div class="md-radio">
+											<input type="radio" id="modal_radio1" name="resolved" class="md-radiobtn" value="Yes">
+											<label for="modal_radio1">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Yes </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio2" name="resolved" class="md-radiobtn" value="No">
+											<label for="modal_radio2">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											No </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio3" name="resolved" class="md-radiobtn" value="N/A">
+											<label for="modal_radio3">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											N/A </label>
+										</div>
+									</div>
+								</div>
+            </div>
+            <div class="modal_section">
+            <div class="form-group form-md-radios">
+									<label>Has the customer been contacted?</label>
+									<div class="md-radio-list">
+										<div class="md-radio">
+											<input type="radio" id="modal_radio4" name="contacted" class="md-radiobtn" value="Yes">
+											<label for="modal_radio4">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Yes </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio5" name="contacted" class="md-radiobtn" value="No">
+											<label for="modal_radio5">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											No </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio6" name="contacted" class="md-radiobtn" value="N/A">
+											<label for="modal_radio6">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											N/A </label>
+										</div>
+									</div>
+								</div>
+            </div>
+            <div class="modal_section">
+            <div class="form-group form-md-radios">
+									<label>Is there any billable time? If so, how much?</label>
+									<div class="md-radio-list">
+										<div class="md-radio">
+											<input type="radio" id="modal_radio7" name="billable" class="md-radiobtn" value="Yes">
+											<label for="modal_radio7">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Yes </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio8" name="billable" class="md-radiobtn" value="No">
+											<label for="modal_radio8">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											No </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio9" name="billable" class="md-radiobtn" value="N/A">
+											<label for="modal_radio9">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											N/A </label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group form-md-line-input">
+                    <input type="number" name="time_worked" class="form-control" id="time_worked" placeholder="Enter the number of hours" >
+                    <label for="time_worked">Number of hours worked</label>
+                </div>
+            </div>
+            <div class="modal_section">
+            <div class="form-group form-md-radios">
+									<label>Did you use any parts? If so, specify in the notes.</label>
+									<div class="md-radio-list">
+										<div class="md-radio">
+											<input type="radio" id="modal_radio10" name="parts" class="md-radiobtn" value="Yes">
+											<label for="modal_radio10">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Yes </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio11" name="parts" class="md-radiobtn" value="No">
+											<label for="modal_radio11">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											No </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio12" name="parts" class="md-radiobtn" value="N/A">
+											<label for="modal_radio12">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											N/A </label>
+										</div>
+									</div>
+								</div>
+            </div>
+
+					<div class="modal_section">
+						<div class="form-group form-md-line-input">
+							<textarea name="notes_modal" id="notes_modal" class="form-control" rows="3" placeholder="Enter notes here"></textarea>
+							<label for="notes_modal">Notes</label>
+						</div>
+					</div>
+					
+                
+      
+        </div>
+            <div class="modal-footer">
+      <button type="submit" id="ticket_finished" class="waves-effect waves-light btn green">Mark as done</button>
+    </div>
+        </div>
+    </div>
+    </form>
+  </div>
+  
+  
+  
+  
+  
+  <div id="modal2" class="modal fade bs-modal-lg in modal-scrollable" tabindex="-1" role="dialog" aria-hidden="true">
+  	<form action="#" id="modal_form2">
+    <div class="modal-dialog modal-lg">
+    	
+      <div class="modal-content">
+      <div class="modal-header">
+      	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+			<h4 class="modal-title">Add a note</h4>
+			</div>
+      <div class="modal-body">
+      	<div class="modal_section">
+
+      				        <div class="form-group form-md-line-input">
+                                <input type="text" name="config_name1" class="form-control" id="config_name" placeholder="Enter the configuration name" >
+                                <label for="config_name1">Configuration Name</label>
+                              </div>
+      		
+      	</div>
+      	
+      	
+          <div class="modal_section">
+          	
+          	
+          	
+          	
+          	
+          	<div class="form-group form-md-radios">
+									<label>Has the problem been resolved?</label>
+									<div class="md-radio-list">
+										<div class="md-radio">
+											<input type="radio" id="radio13" name="resolved1" class="md-radiobtn" value="Yes">
+											<label for="radio13">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Yes </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="radio14" name="resolved1" class="md-radiobtn" value="No">
+											<label for="radio14">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											No </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="radio15" name="resolved1" class="md-radiobtn" value="N/A">
+											<label for="radio15">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											N/A </label>
+										</div>
+									</div>
+								</div>
+            </div>
+            <div class="modal_section">
+            <div class="form-group form-md-radios">
+									<label>Has the customer been contacted?</label>
+									<div class="md-radio-list">
+										<div class="md-radio">
+											<input type="radio" id="modal_radio16" name="contacted1" class="md-radiobtn" value="Yes">
+											<label for="modal_radio16">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Yes </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio17" name="contacted1" class="md-radiobtn" value="No">
+											<label for="modal_radio17">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											No </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio18" name="contacted1" class="md-radiobtn" value="N/A">
+											<label for="modal_radio18">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											N/A </label>
+										</div>
+									</div>
+								</div>
+            </div>
+            <div class="modal_section">
+            <div class="form-group form-md-radios">
+									<label>Is there any billable time? If so, how much?</label>
+									<div class="md-radio-list">
+										<div class="md-radio">
+											<input type="radio" id="modal_radio19" name="billable1" class="md-radiobtn" value="Yes">
+											<label for="modal_radio19">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Yes </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio20" name="billable1" class="md-radiobtn" value="No">
+											<label for="modal_radio20">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											No </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio21" name="billable1" class="md-radiobtn" value="N/A">
+											<label for="modal_radio21">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											N/A </label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group form-md-line-input">
+                    <input type="number" name="time_worked1" class="form-control" id="time_worked1" placeholder="Enter the number of hours" >
+                    <label for="time_worked1">Number of hours worked</label>
+                </div>
+            </div>
+            <div class="modal_section">
+            <div class="form-group form-md-radios">
+									<label>Did you use any parts? If so, specify in the notes.</label>
+									<div class="md-radio-list">
+										<div class="md-radio">
+											<input type="radio" id="modal_radio22" name="parts1" class="md-radiobtn" value="Yes">
+											<label for="modal_radio22">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Yes </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio23" name="parts1" class="md-radiobtn" value="No">
+											<label for="modal_radio23">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											No </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio24" name="parts1" class="md-radiobtn" value="N/A">
+											<label for="modal_radio24">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											N/A </label>
+										</div>
+									</div>
+								</div>
+            </div>
+                              
+              <div class="modal_section">               
+
+            		<div class="form-group form-md-line-input">
+										<textarea name="notes1" class="form-control" rows="3" placeholder="Enter notes here"></textarea>
+										<label for="notes1"></label>
+									</div>
+            
+            
+			</div>						
+            </div>
+      
+        
+            <div class="modal-footer">
+      <button type="submit" id="add_config_modal" class="waves-effect waves-light btn green">Save configuration</button>
+    </div>
+    </div>
+        
+        </div>
+    </form>
+  </div>
+  
+  
+  
+  
+  
+  
+  
+    <div id="modal3" class="modal fade bs-modal-lg in modal-scrollable" tabindex="-1" role="dialog" aria-hidden="true">
+  	<form action="#" id="modal_form3">
+    <div class="modal-dialog modal-lg">
+    	
+      <div class="modal-content">
+      <div class="modal-header">
+      	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+			<h4 class="modal-title">Edit a config</h4>
+			</div>
+      <div class="modal-body">
+      	<div class="modal_section">
+
+      				        <div class="input-group-control">
+								<select class="form-control" id="saved_config1" name="saved_config1">
+								  <option value=""></option>
+								  {{#each currentUser.profile.saved_configs}}
+									<option value="{{config}}">{{config}}</option>
+								  {{/each}}
+							  </select>
+							  <label for="saved_notes">Saved Configurations</label>
+							</div>
+      		
+      	</div>
+      	
+      	
+          <div class="modal_section">
+          	
+          	<div class="form-group form-md-line-input">
+                <input type="text" name="config_name3" class="form-control" id="config_name3" placeholder="Enter the config name" >
+                <label for="config_name3">Config Name</label>
+            </div>
+          	
+          	
+          	<div class="form-group form-md-radios">
+									<label>Has the problem been resolved?</label>
+									<div class="md-radio-list">
+										<div class="md-radio">
+											<input type="radio" id="radio25" name="resolved2" class="md-radiobtn" value="Yes">
+											<label for="radio25">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Yes </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="radio26" name="resolved2" class="md-radiobtn" value="No">
+											<label for="radio26">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											No </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="radio27" name="resolved2" class="md-radiobtn" value="N/A">
+											<label for="radio27">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											N/A </label>
+										</div>
+									</div>
+								</div>
+            </div>
+            <div class="modal_section">
+            <div class="form-group form-md-radios">
+									<label>Has the customer been contacted?</label>
+									<div class="md-radio-list">
+										<div class="md-radio">
+											<input type="radio" id="modal_radio28" name="contacted2" class="md-radiobtn" value="Yes">
+											<label for="modal_radio28">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Yes </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio29" name="contacted2" class="md-radiobtn" value="No">
+											<label for="modal_radio29">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											No </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio30" name="contacted2" class="md-radiobtn" value="N/A">
+											<label for="modal_radio30">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											N/A </label>
+										</div>
+									</div>
+								</div>
+            </div>
+            <div class="modal_section">
+            <div class="form-group form-md-radios">
+									<label>Is there any billable time? If so, how much?</label>
+									<div class="md-radio-list">
+										<div class="md-radio">
+											<input type="radio" id="modal_radio31" name="billable2" class="md-radiobtn" value="Yes">
+											<label for="modal_radio31">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Yes </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio32" name="billable2" class="md-radiobtn" value="No">
+											<label for="modal_radio32">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											No </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio33" name="billable2" class="md-radiobtn" value="N/A">
+											<label for="modal_radio34">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											N/A </label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group form-md-line-input">
+                    <input type="number" name="time_worked2" class="form-control" id="time_worked2" placeholder="Enter the number of hours" >
+                    <label for="time_worked2">Number of hours worked</label>
+                </div>
+            </div>
+            <div class="modal_section">
+            <div class="form-group form-md-radios">
+									<label>Did you use any parts? If so, specify in the notes.</label>
+									<div class="md-radio-list">
+										<div class="md-radio">
+											<input type="radio" id="modal_radio35" name="parts2" class="md-radiobtn" value="Yes">
+											<label for="modal_radio35">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											Yes </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio36" name="parts2" class="md-radiobtn" value="No">
+											<label for="modal_radio23">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											No </label>
+										</div>
+										<div class="md-radio">
+											<input type="radio" id="modal_radio37" name="parts2" class="md-radiobtn" value="N/A">
+											<label for="modal_radio37">
+											<span class="inc"></span>
+											<span class="check"></span>
+											<span class="box"></span>
+											N/A </label>
+										</div>
+									</div>
+								</div>
+            </div>
+                              
+              <div class="modal_section">               
+
+            		<div class="form-group form-md-line-input">
+										<textarea id="notes_modal2" name="notes2" class="form-control" rows="3" placeholder="Enter notes here"></textarea>
+										<label for="notes2"></label>
+									</div>
+            
+            
+			</div>						
+            </div>
+      
+        
+        
+            <div class="modal-footer">
+      <button type="submit" id="add_config_modal2" class="waves-effect waves-light btn green">Save configuration</button>
+      <a href="" class="waves-effect waves-light btn orange" id="remove_config_modal3">Remove this config</a>
+      <a href="" class="waves-effect waves-light btn red" id="remove_all_modal3">Remove All</a>
+    </div>
+    </div>
+        
+        </div>
+    </form>
+  </div>
+    {{else}}
+      {{> clientPortalPage}}
+{{/if}}
+{{else}}
+	{{> loginPage}}
+{{/if}}  
+</template>
